@@ -1,0 +1,295 @@
+<?php
+
+include "../db/dbConn.php";
+$sql = "SELECT mainte.*, users.*
+        FROM mainte
+        JOIN users ON mainte.UserIDF = users.UserID;
+        -- ORDER BY mainte.DateContract ASC
+        -- LIMIT 1;
+";
+$result = mysqli_query($connection, $sql);
+?>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <meta name="description" content="" />
+  <meta name="author" content="" />
+  <title>لوحة تحكم الأدمن</title>
+  <!-- Favicon-->
+  <link rel="icon" type="image/x-icon" href="assets/Untitled.jpg" class="rounded-circle" />
+  <!-- Core theme CSS (includes Bootstrap)-->
+  <link href="css/styles.css" rel="stylesheet" />
+  <link href="css/popup.css" rel="stylesheet" >
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+
+</head>
+
+<body>
+  <div class="d-flex" id="wrapper">
+    <!-- Sidebar-->
+    <div class="border-end" id="sidebar-wrapper" style="background-color: #162334;">
+
+      <div class="sidebar-heading border-bottom" style="color: white;"><a href="#" class="d-flex align-items-center text-white text-decoration-none " id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
+          <img src="Images/Untitled.jpg" alt="hugenerd" width="50" height="50" class="rounded-circle">
+          <h4 style="font-weight: bolder; font-size: 20px; text-align: right; font-style: italic;"> &nbsp;&nbsp;قائمة العمليات</h4>
+
+        </a></div>
+      <div class="list-group list-group-flush">
+        <a class="list-group-item list-group-item-action list-group-item-light p-3 sidebar_item" href="#!" style="background-color: #162334; color: white;"><i class="bi bi-list-ul" style="color: white; font-size: 18px;">&nbsp;عرض الطلبات</i></a>
+        <a class="list-group-item list-group-item-action list-group-item-light p-3 " href="#!" style=" background-color: #162334; color: white; "><i class="bi bi-person-add" style="font-size: 18px;">&nbsp;إضافة فني صيانة</i></a>
+        <a class="list-group-item list-group-item-action list-group-item-light p-3 " href="#!" style="background-color: #162334; color: white; "><i class="bi bi-box-arrow-right" style="font-size: 18px;">&nbsp;تسجيل الخروج</i></a>
+        <!--
+                    <a class="list-group-item list-group-item-action list-group-item-light p-3 " href="#!" style="background-color: #162334; color: white;" >Events</a>
+                    <a class="list-group-item list-group-item-action list-group-item-light p-3 " href="#!" style="background-color: #162334; color: white;" >Profile</a>
+                    <a class="list-group-item list-group-item-action list-group-item-light p-3 " href="#!" style="background-color: #162334; color: white;" >Status</a>
+                -->
+      </div>
+    </div>
+    <!-- Page content wrapper-->
+    <div id="page-content-wrapper">
+      <!-- Top navigation-->
+      <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+        <div class="container-fluid">
+          <button class="btn btn-primary" id="sidebarToggle"><i class="bi bi-list" style="color: white; font-size: 18px; font-weight: bold;"></i></button>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ms-auto mt-2 mt-lg-0">
+              <li class="nav-item active"><a class="nav-link" href="#!" style=" font-weight: bolder;">الرئيسية</a></li>
+              <li class="nav-item"><a class="nav-link" href="#!" style=" font-weight: bolder;">بريد الموقع</a></li>
+              <!--
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dropdown</a>
+                                    <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                                        <a class="dropdown-item" href="#!">Action</a>
+                                        <a class="dropdown-item" href="#!">Another action</a>
+                                        <div class="dropdown-divider"></div>
+                                        <a class="dropdown-item" href="#!">Something else here</a>
+                                    </div>
+                                </li>
+                                -->
+            </ul>
+          </div>
+        </div>
+      </nav>
+      <!-- Page content-->
+      <div class="container-fluid">
+        <div class="col py-3">
+          <main role="main" class="col-md-12 ml-sm-auto col-lg-10 px-4">
+
+            <h3>الطلبات</h3>
+            <hr>
+            <div class="table-responsive table-wrapper-scroll-y my-custom-scrollbar" id="scroll_table" style="height: 300px;  overflow: scroll; background-color: #162334; color: white;">
+
+              <table class="table table-bordered mb-0" id="content_table" style="color: white; text-align: center; ">
+                <thead class="table_head">
+
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">الاسم الأول</th>
+                    <th scope="col">الاسم الأخير</th>
+                    <th scope="col"> اسم المشروع </th>
+                    <th>العمليات</th>
+
+                  </tr>
+                </thead>
+                <tbody>
+                  <?php
+               
+                  if ($result->num_rows > 0) {
+                    while ($row = $result->fetch_assoc()) {
+                      $row_json = json_encode($row);
+                    
+                    
+                  
+              echo '
+              <tr>
+                  <th scope="row">1</th>
+                  <td>'. $row["Email"].'</td>
+                  <td>Otto</td>
+                  <td>Project Manager</td>
+                  <td>
+                      <button type="button" onclick="openPopup(\''.htmlspecialchars( $row_json , ENT_QUOTES, 'UTF-8').'\')" class="btn btn-outline-light" style="font-size: 12px;">
+                          <span class="glyphicon glyphicon-list-alt"></span>عرض الطلب
+                      </button>&nbsp;&nbsp;&nbsp;&nbsp;
+                      
+                      <button type="button" class="btn btn-primary" style="font-size: 12px;">
+                          <span class="glyphicon glyphicon-edit"></span> تعديل حالة الطلب
+                      </button>&nbsp;&nbsp;&nbsp;&nbsp;
+                      
+                      <button type="button" class="btn btn-success" style="font-size: 12px;">
+                          <span class="glyphicon glyphicon-arrow-down"></span>تحميل الطلب
+                      </button>&nbsp;&nbsp;&nbsp;&nbsp;
+                      
+                      <button type="button" class="btn btn-danger" style="font-size: 12px;">
+                          <span class="glyphicon glyphicon-trash"></span>حذف الطلب
+                      </button>
+                  </td>
+              </tr>
+          ';
+                    }
+                  }
+                  ?>
+                  
+                  <?php
+if ($result->num_rows > 0) {
+  $count = 1;
+  while ($row = $result->fetch_assoc()) {
+    $row_json = json_encode($row);
+    ?>
+    <tr>
+      <th scope="row"><?php echo $count; ?></th>
+      <td><?php echo $row["Email"]; ?></td>
+      <td>Otto</td>
+      <td>Project Manager</td>
+      <td>
+        <button type="button" onclick="openPopup('<?php echo htmlspecialchars($row_json, ENT_QUOTES, 'UTF-8'); ?>')" class="btn btn-outline-light" style="font-size: 12px;">
+          <span class="glyphicon glyphicon-list-alt"></span>عرض الطلب
+        </button>
+        &nbsp;&nbsp;&nbsp;&nbsp;
+        <button type="button" class="btn btn-primary" style="font-size: 12px;">
+          <span class="glyphicon glyphicon-edit"></span> تعديل حالة الطلب
+        </button>
+        &nbsp;&nbsp;&nbsp;&nbsp;
+        <button type="button" class="btn btn-success" style="font-size: 12px;">
+          <span class="glyphicon glyphicon-arrow-down"></span>تحميل الطلب
+        </button>
+        &nbsp;&nbsp;&nbsp;&nbsp;
+        <button type="button" class="btn btn-danger" style="font-size: 12px;">
+          <span class="glyphicon glyphicon-trash"></span>حذف الطلب
+        </button>
+      </td>
+    </tr>
+
+    <div id="popup" class="popup">
+
+<div  class="popup-content">
+    <span class="close" onclick="closePopup()">&times;</span>
+    <p id="cloP" class="clo">تفاصيل المحتوى المنبثق</p>
+  </div>
+  </div>
+    <?php
+    $count++;
+  }
+}
+?>
+                </tbody>
+              </table>
+
+
+<div id="popup" class="popup">
+
+    <div  class="popup-content">
+        <span class="close" onclick="closePopup()">&times;</span>
+        <p id="cloP" class="clo">تفاصيل المحتوى المنبثق</p>
+        <?php
+
+
+$sql2= "SELECT * FROM `mainte` where ProjectName='test1'";
+$res2=mysqli_query($connection,$sql2);
+$row11 = mysqli_fetch_array($res2);
+$status = $row11['Status'];
+echo '<select id="status" name="status">';
+echo '<option value="تم التنفيذ" ' . ($status == "تم التنفيذ" ? "selected" : "") . '>تم التنفيذ</option>';
+echo '<option value="تم الاستلام" ' . ($status == "تم الاستلام" ? "selected" : "") . '>تم الاستلام</option>';
+echo '<option value="تم الانتهاء" ' . ($status == "تم الانتهاء" ? "selected" : "") . '>تم الانتهاء</option>';
+echo '</select>';
+echo '<button id="update">تحديث</button>';
+?>
+
+        
+        
+    </div>
+    
+</div>
+
+
+
+
+
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+  <!-- Bootstrap core JS-->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- Core theme JS-->
+  <!-- Optional JavaScript -->
+  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
+  <script >
+
+$(document).ready(function() {
+    // تحديد زر التحديث وحقل النص
+    var updateButton = $('#update');
+    var statusField = $('#status');
+  
+    // التحقق من النقر على زر التحديث
+    updateButton.click(function() {
+      // استخراج القيمة المدخلة في حقل النص
+      var statusValue = statusField.val();
+  
+      // إرسال القيمة إلى الصفحة PHP باستخدام AJAX
+      $.ajax({
+        type: 'POST',
+        url: 'update.php', // تحديد ملف PHP الذي يتعامل مع تحديث البيانات
+        data: { status: statusValue }, // إرسال البيانات الجديدة
+        success: function(data) {
+          alert(data)
+          // تحديث حقل النص بالقيمة الجديدة
+          statusField.val(data);
+        }
+      });
+    });
+  });
+
+  
+
+window.addEventListener('DOMContentLoaded', event => {
+
+// Toggle the side navigation
+const sidebarToggle = document.body.querySelector('#sidebarToggle');
+if (sidebarToggle) {
+    // Uncomment Below to persist sidebar toggle between refreshes
+    // if (localStorage.getItem('sb|sidebar-toggle') === 'true') {
+    //     document.body.classList.toggle('sb-sidenav-toggled');
+    // }
+    sidebarToggle.addEventListener('click', event => {
+        event.preventDefault();
+        document.body.classList.toggle('sb-sidenav-toggled');
+        localStorage.setItem('sb|sidebar-toggle', document.body.classList.contains('sb-sidenav-toggled'));
+    });
+}
+
+});
+
+
+alert("fweferg")
+// popup js  Abood add
+
+function openPopup(text) {
+alert(text);
+var rowObj = JSON.parse(text);
+document.getElementById("popup").style.display = "block";
+document.getElementById("cloP").innerHTML = rowObj['FirstName'];
+
+}
+function closePopup() {
+document.getElementById("popup").style.display = "none";
+}
+
+
+
+
+
+  </script>
+</body>
+
+</html>
