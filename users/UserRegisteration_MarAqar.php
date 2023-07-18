@@ -18,13 +18,13 @@ if(isset($_SESSION['email']) && !empty($_SESSION['email']) && isset($_SESSION['p
     
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="js/script.js"></script>
+    <!-- <script type="text/javascript" src="js/script.js"></script> -->
 <!-- تضمين مكتبة jQuery -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <!-- تضمين مكتبة AJAX -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-ajax-unobtrusive/3.2.6/jquery.unobtrusive-ajax.min.js"></script>
-    <link rel="stylesheet" href="CSS/UserRegisteration.css">
+    <!-- <link rel="stylesheet" href="CSS/UserRegisteration.css"> -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.rtl.min.css" integrity="sha384-gXt9imSW0VcJVHezoNQsP+TNrjYXoGcrqBZJpry9zJt8PCQjobwmhMGaDHTASo9N" crossorigin="anonymous">
 
 

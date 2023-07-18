@@ -53,13 +53,10 @@
                                                 <button type="submit" name="login" class="btn btn-success btn-block fa-lg gradient-custom-2 mb-3" style="font-size: 12px;">
                                                     تسجيل الدخول</button>
                                                 <br>
-                                                <a class="text-muted" href="forgot_password_maraqar.php" style="font-size: 12px;"> نسيت كلمة السر؟ </a>
+                                                <!-- <a class="text-muted" href="forgot_password_maraqar.php" style="font-size: 12px;"> نسيت كلمة السر؟ </a> -->
                                             </div>
 
-                                            <div class="d-flex align-items-center justify-content-center pb-4">
-                                                <p class="mb-0 me-2" style="font-size: 12px;">ليس لديك حساب؟</p>
-                                                <button type="submit" name="submit" class="btn btn-danger" style="font-size: 12px;"><a href="UserRegisteration_MarAqar.php" class="link-light a_reg" style="font-size: 12px; text-decoration: none;">أنشئ واحداً</a></button>
-                                            </div>
+                                           
 
                                         </form>
 
@@ -95,14 +92,15 @@
                     success: function(data) {
                         $('form#Mylogin')[0].reset();
                         $('#Mylogin').find('button').text('تسجيل دخول');
-                        
-
+                        // alert(data);
                         if (data.trim() === 'admins') {
                             alert("تم تسجيل الدخول بنجاح")
                             window.location.href = 'dashboard_admin.php';
                         } else if (data.trim() === "mainte") {
                             alert("تم تسجيل الدخول بنجاح")
-                            window.location.href = 'test.php';
+                            window.location.href = 'dashboardMainte.php';
+                        }else{
+                            alert(data)
                         }
                     }
                 });

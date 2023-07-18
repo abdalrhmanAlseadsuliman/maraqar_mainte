@@ -23,9 +23,10 @@ if (isset($_SERVER['HTTP_COOKIE'])) {
 }
 
 // إنهاء الجلسة
+session_unset();
 session_destroy();
 
 // إعادة توجيه المستخدم إلى صفحة تسجيل الدخول
-header("Location:login_maraqar.php");
+header("Location:loginAdmin.php");
 exit();
 ?>

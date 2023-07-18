@@ -4,15 +4,15 @@ include "../db/dbConn.php";
 session_start();
 
 if (isset($_COOKIE['email']) && isset($_COOKIE['password']) && !empty($_COOKIE['password']) && !empty($_COOKIE['email']) && isset($_COOKIE['typeUsers']) && !empty($_COOKIE['typeUsers'])  ) {
-  if( $_COOKIE['typeUsers'] == "admin"){
+  if( $_COOKIE['typeUsers'] == "mainte"){
 
     // استرجاع البيانات من الكوكيز
     // تعيين بيانات المستخدم في الجلسة
     var_dump($_COOKIE);
     $_SESSION['email'] = $_COOKIE['email'];
     $_SESSION['password'] = $_COOKIE['password'];
-  }elseif($_COOKIE['typeUsers'] == "mainte"){
-    header("location:dashboardMainte.php");
+  }elseif($_COOKIE['typeUsers'] == "admin"){
+    header("location:dashboard_admin.php");
   }
 
   }else{
@@ -23,7 +23,7 @@ if (isset($_COOKIE['email']) && isset($_COOKIE['password']) && !empty($_COOKIE['
 
 $sql = "SELECT mainte.*, users.*
         FROM mainte
-        JOIN users ON mainte.UserIDF = users.UserID;
+        JOIN users ON mainte.UserIDF = users.UserID WHERE mainte.Status = 'تم الاستلام' or mainte.Status = 'تم الانتهاء';
        
 ";
 $result = mysqli_query($connection, $sql);
@@ -39,7 +39,7 @@ $result = mysqli_query($connection, $sql);
   <meta name="author" content="" />
   <title>لوحة تحكم الأدمن</title>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/progressbar.js@1.1.0/dist/progressbar.min.js"></script>
+
   <!-- Favicon-->
   <link rel="icon" type="image/x-icon" href="assets/Untitled.jpg" class="rounded-circle" />
   <!-- Core theme CSS (includes Bootstrap)-->
@@ -49,6 +49,7 @@ $result = mysqli_query($connection, $sql);
 </head>
 
 <body>
+    <h1>لوحة الفني</h1>
   <div class="d-flex" id="wrapper">
     <!-- Sidebar-->
     <div class="border-end" id="sidebar-wrapper" style="background-color: #162334;">
@@ -60,7 +61,7 @@ $result = mysqli_query($connection, $sql);
         </a></div>
       <div class="list-group list-group-flush">
         <a class="list-group-item list-group-item-action list-group-item-light p-3 sidebar_item" href="#!" style="background-color: #162334; color: white;"><i class="bi bi-list-ul" style="color: white; font-size: 18px;">&nbsp;عرض الطلبات</i></a>
-        <a class="list-group-item list-group-item-action list-group-item-light p-3 " href="mainteRegister.php" style=" background-color: #162334; color: white; "><i class="bi bi-person-add" style="font-size: 18px;">&nbsp;إضافة فني صيانة</i></a>
+        <a class="list-group-item list-group-item-action list-group-item-light p-3 " href="#!" style=" background-color: #162334; color: white; "><i class="bi bi-person-add" style="font-size: 18px;">&nbsp;إضافة فني صيانة</i></a>
         <a class="list-group-item list-group-item-action list-group-item-light p-3 " href="logoutAdmin.php" style="background-color: #162334; color: white; "><i class="bi bi-box-arrow-right" style="font-size: 18px;">&nbsp;تسجيل الخروج</i></a>
         <!--
                     <a class="list-group-item list-group-item-action list-group-item-light p-3 " href="#!" style="background-color: #162334; color: white;" >Events</a>
@@ -143,7 +144,6 @@ $result = mysqli_query($connection, $sql);
                           <button type="button" onclick="downloadfile('<?php echo htmlspecialchars($row_json, ENT_QUOTES, 'UTF-8'); ?>')" class="btn btn-success" style="font-size: 12px;">
                             <span class="glyphicon glyphicon-arrow-down"></span>تحميل الطلب
                           </button>
-                          <div id="progress-bar"></div>
                           &nbsp;&nbsp;&nbsp;&nbsp;
                        
                           <button type="button" onclick="deleteReq('<?php echo htmlspecialchars($row_json, ENT_QUOTES, 'UTF-8'); ?>')" class="btn btn-danger" style="font-size: 12px;">
@@ -204,7 +204,7 @@ $result = mysqli_query($connection, $sql);
           <p>رقم الهاتف: <span id="par13"> </span> </p>
           <p>البريد الإلكتروني: <span id="par14"> </span> </p>
         </div>
-        <button type="button" id="par15" class="btn btn-primary" style="font-size: 12px;">
+        <!-- <button type="button" id="par15" class="btn btn-primary" style="font-size: 12px;">
           <span class="glyphicon glyphicon-edit"></span>
           تعديل حالة الطلب
         </button>
@@ -213,7 +213,7 @@ $result = mysqli_query($connection, $sql);
           <option value="تم الارسال">تم الارسال </option>
           <option value="تم الاستلام"> تم الاستلام </option>
           <option value="تم الانتهاء"> تم الانتهاء </option>
-        </select>
+        </select> -->
 
         <div id="img12" class="images">
           <!-- <img src="../users/uploads/Screenshot from 2023-05-17 16-55-26.png" alt=""> -->
@@ -236,7 +236,7 @@ $result = mysqli_query($connection, $sql);
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 
-    <script src="js/javascriptfile.js"></script>
+    <script src="js/javascriptfileMainte.js"></script>
 </body>
 
 </html>

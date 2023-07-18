@@ -1,4 +1,4 @@
-alert("updateFidle");
+alert("svgerupdateFidle");
 /*!
 * Start Bootstrap - Simple Sidebar v6.0.6 (https://startbootstrap.com/template/simple-sidebar)
 * Copyright 2013-2023 Start Bootstrap
@@ -98,7 +98,7 @@ function openPopup(text) {
     document.getElementById("par7").innerHTML = rowObj['TypeRequest'] // افتراضياً يجب تعيين ID العنصر الذي يحتوي على الصور إلى "images"
     document.getElementById("par8").innerHTML = rowObj['Description'] // افتراضياً يجب تعيين ID العنصر الذي يحتوي على الصور إلى "images"
     document.getElementById("par9").innerHTML = rowObj['Status'] // افتراضياً يجب تعيين ID العنصر الذي يحتوي على الصور إلى "images"
-    document.getElementById("selectedOption").innerHTML = rowObj['Status'] // افتراضياً يجب تعيين ID العنصر الذي يحتوي على الصور إلى "images"
+    // document.getElementById("selectedOption").innerHTML = rowObj['Status'] // افتراضياً يجب تعيين ID العنصر الذي يحتوي على الصور إلى "images"
 
     document.getElementById("par10").innerHTML = rowObj['RequestDate'] // افتراضياً يجب تعيين ID العنصر الذي يحتوي على الصور إلى "images"
     document.getElementById("par11").innerHTML = rowObj['FirstName'] + " " + rowObj['LastName'] // افتراضياً يجب تعيين ID العنصر الذي يحتوي على الصور إلى "images"
@@ -109,9 +109,9 @@ function openPopup(text) {
     
     
     // selectedOption
-    document.getElementById("par15").onclick =  function() {
-      updateReq(text);
-    };
+    // document.getElementById("par15").onclick =  function() {
+    //   updateReq(text);
+    // };
     
     
     // افتراضياً يجب تعيين ID العنصر الذي يحتوي على الصور إلى "images"

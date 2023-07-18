@@ -15,8 +15,7 @@ var_dump($_SESSION);
   <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
   <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-  <script type="text/javascript" src="js/script.js"></script>
-  <link rel="stylesheet" href="CSS/UserRegisteration.css">
+  <link rel="stylesheet" href="../css/UserRegisterationMarAqar.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.rtl.min.css" integrity="sha384-gXt9imSW0VcJVHezoNQsP+TNrjYXoGcrqBZJpry9zJt8PCQjobwmhMGaDHTASo9N" crossorigin="anonymous">
 
 
@@ -175,11 +174,11 @@ var_dump($_SESSION);
           processData: false,
           contentType: false,
           beforeSend: function() {
-            $('#mainteform').find('button').text('جاري الإرسال...');
+            $('#mainteform').find('button#register').text('جاري الإرسال...');
           },
           success: function(data) {
             $('form#mainteform')[0].reset();
-            $('#mainteform').find('button').text('ارسال الطلب');
+            $('#mainteform').find('button#register').text('ارسال الطلب');
             alert(data);
           }
         });

@@ -7,7 +7,7 @@ $json = $_POST['json'];
 $data = json_decode($json, true);
 $status = $_POST['status'];
 // var_dump($data);
-echo $data['ProjectName'] . " " . $status . " <br>";
+// echo $data['ProjectName'] . " " . $status . " <br>";
 // var_dump($status);
 
 // echo $data['Status']. " test " . $status ;

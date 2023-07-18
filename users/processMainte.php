@@ -1,7 +1,7 @@
 <?php
 include "../db/dbConn.php";
 session_start();
-
+// var_dump($_SESSION);
 if(isset($_SESSION['email']) && !empty($_SESSION['email']) && isset($_SESSION['password']) && !empty($_SESSION['password']) ){
     $email = $_SESSION['email'];
     $password = $_SESSION['password'];
@@ -26,7 +26,7 @@ if(isset($_SESSION['email']) && !empty($_SESSION['email']) && isset($_SESSION['p
     $userId = $_SESSION['userId'];
     echo $userId . "<br>";
     // var_dump($_POST);
-var_dump($_FILES);
+    // var_dump($_FILES);
     // معالجة الصورة 
 
     $uploadFolder = 'uploads/';
@@ -51,7 +51,7 @@ var_dump($_FILES);
         $imageNamesStr = implode(",", $imageNames);
         // $query = "INSERT INTO AddImages SET img='$imageNamesStr' " ;
         echo "test546 <br>";
-        $sql = "INSERT INTO mainte (ProjectName, Neighborhood, PieceNumber, UnitNumber, FloorNumber, DateContract, TypeRequest, Description, Img,UserIDF) VALUES ('$project_name', '$neighborhood', '$piece_number', '$unit_number', '$floor_number', '$contract_date', '$request_type', '$request_description', '$imageNamesStr', '$userId' )";
+        $sql = "INSERT INTO mainte (ProjectName, Neighborhood, PieceNumber, UnitNumber, FloorNumber, DateContract, TypeRequest, Description, Img, visit ,UserIDF) VALUES ('$project_name', '$neighborhood', '$piece_number', '$unit_number', '$floor_number', '$contract_date', '$request_type', '$request_description', '$imageNamesStr','0', '$userId' )";
         echo "test 800 <br>";
         
         $run = mysqli_query($connection, $sql);

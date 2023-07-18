@@ -1,220 +1,228 @@
+<?php
+
+include "../db/dbConn.php";
+session_start();
+
+if (isset($_COOKIE['email']) && isset($_COOKIE['password']) && !empty($_COOKIE['password']) && !empty($_COOKIE['email'])) {
+  
+
+    // استرجاع البيانات من الكوكيز
+    // تعيين بيانات المستخدم في الجلسة
+    // var_dump($_COOKIE);
+    $_SESSION['email'] = $_COOKIE['email'];
+    $_SESSION['password'] = $_COOKIE['password'];
+  
+  }else{
+    header("Location:login_maraqar.php");
+  }
 
 
 
+$sql = "SELECT mainte.*, users.*
+        FROM mainte
+        JOIN users ON mainte.UserIDF = users.UserID  WHERE users.Email = '$_SESSION[email]';
+       
+";
+$result = mysqli_query($connection, $sql);
 
-<!doctype html>
+?>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="js/script.js"></script>
-    <link rel="stylesheet" href="CSS/UserRegisteration.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.rtl.min.css"
-        integrity="sha384-gXt9imSW0VcJVHezoNQsP+TNrjYXoGcrqBZJpry9zJt8PCQjobwmhMGaDHTASo9N" crossorigin="anonymous">
-        <link rel="stylesheet" href="CSS/user_dashboard.css" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <meta name="description" content="" />
+  <meta name="author" content="" />
+  <title>لوحة تحكم الأدمن</title>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/progressbar.js@1.1.0/dist/progressbar.min.js"></script>
+  <!-- Favicon-->
+  <link rel="icon" type="image/x-icon" href="assets/Untitled.jpg" class="rounded-circle" />
+  <!-- Core theme CSS (includes Bootstrap)-->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+  <link href="css/stylesUser.css" rel="stylesheet" />
+  <link href="css/popupUser.css" rel="stylesheet">
+</head>
 
+<body>
+  <div class="d-flex" id="wrapper">
+    <!-- Sidebar-->
+    <div class="border-end" id="sidebar-wrapper" style="background-color: #162334;">
 
-    <title>لوحة التحكم</title>
-  </head>
-  <body>
-    
-    <nav class="navbar navbar-dark  fixed-top bg-primary flex-md-nowrap p-0 shadow">
-        <ul class="navbar-nav px-3">
-            <li class="nav-item text-nowrap">
-              <a class="nav-link" href="#" style="font-size: 16px; color: white;">تسجيل الخروج</a>
-            </li>
-          </ul>
-        
-          <button type="button" class="btn btn-primary"><span class="glyphicon glyphicon-search" style="font-size: 18px;"></span></button>
-        <input type="search" class="form-control form-control-primary w-100" placeholder="... ابحث " style="text-align: right; font-size: 16px;" >
-        
-        
-    </nav>
-    
+      <div class="sidebar-heading border-bottom" style="color: white;"><a href="#" class="d-flex align-items-center text-white text-decoration-none " id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
+          <img src="Images/Untitled.jpg" alt="hugenerd" width="50" height="50" class="rounded-circle">
+          <h4 style="font-weight: bolder; font-size: 20px; text-align: right; font-style: italic;"> &nbsp;&nbsp;قائمة العمليات</h4>
 
-    <div class="container-fluid">
-        <div class="row">
-          <!-- Sidear -->
-
-          <div class="col-md-2 bg-light d-none d-md-block sidebar">
-            <div class="left-sidebar">
-                <ul class="nav flex-column sidebar-nav">
-                    <li class="nav-item">
-                      <a class="nav-link active" href="#" style="font-size:14px; color: #162334; ">
-                        <span class="glyphicon glyphicon-home" aria-hidden="true">&nbsp;</span>
-الصفحة الرئيسية                      </a>
-                    </li>
-                    <li class="nav-item">
-                      <a class="nav-link" href="maintenanceRequest_maraqar.html" style="font-size:14px; color: #162334; ">
-                        <span class="glyphicon glyphicon-plus" aria-hidden="true">&nbsp;</span>
-                        إنشاء طلب
-                      </a>
-                    </li>
-                    <li class="nav-item">
-                      <a class="nav-link" href="user_dashboard.html" style="font-size:14px; color: #162334;">
-                        <span class="glyphicon glyphicon-comment" aria-hidden="true">&nbsp;</span>
-                        عرض الطلبات
-                      </a>
-                    </li>
-                    <li class="nav-item">
-                      <a class="nav-link" href="login_maraqar.html" style="font-size:14px; color: #162334;">
-                        <span class="glyphicon glyphicon-log-out" aria-hidden="true">&nbsp;</span>
-                        تسجيل الخروج
-                      </a>
-                    </li>
-                    <li class="nav-item">
-                      <a class="nav-link" href="#" style="font-size: 14px; color: #162334;">
-                        <span class="glyphicon glyphicon-thumbs-up" aria-hidden="true">&nbsp;</span>
-                        تقييم خدمات الصيانة
-                      </a>
-                    </li>
-                  </ul>
-                  
-            </div>
+        </a></div>
+      <div class="list-group list-group-flush">
+        <a class="list-group-item list-group-item-action list-group-item-light p-3 sidebar_item" href="#!" style="background-color: #162334; color: white;"><i class="bi bi-list-ul" style="color: white; font-size: 18px;">&nbsp;عرض الطلبات</i></a>
+        <a class="list-group-item list-group-item-action list-group-item-light p-3 " href="maintenanceRequest_maraqar.php" style=" background-color: #162334; color: white; "><i class="bi bi-person-add" style="font-size: 18px;">&nbsp;تقديم طلب جديد</i></a>
+        <a class="list-group-item list-group-item-action list-group-item-light p-3 " href="logout.php" style="background-color: #162334; color: white; "><i class="bi bi-box-arrow-right" style="font-size: 18px;">&nbsp;تسجيل الخروج</i></a>
+        <!--
+                    <a class="list-group-item list-group-item-action list-group-item-light p-3 " href="#!" style="background-color: #162334; color: white;" >Events</a>
+                    <a class="list-group-item list-group-item-action list-group-item-light p-3 " href="#!" style="background-color: #162334; color: white;" >Profile</a>
+                    <a class="list-group-item list-group-item-action list-group-item-light p-3 " href="#!" style="background-color: #162334; color: white;" >Status</a>
+                -->
+      </div>
+    </div>
+    <!-- Page content wrapper-->
+    <div id="page-content-wrapper">
+      <!-- Top navigation-->
+      <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+        <div class="container-fluid">
+          <button class="btn btn-primary" id="sidebarToggle"><i class="bi bi-list" style="color: white; font-size: 18px; font-weight: bold;"></i></button>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ms-auto mt-2 mt-lg-0">
+              <li class="nav-item active"><a class="nav-link" href="https://maraqar.com/" style=" font-weight: bolder;">الرئيسية</a></li>
+              <li class="nav-item"><a class="nav-link" href="mailto:aboodsulayman1998@gmail.com
+" style=" font-weight: bolder;">بريد الموقع</a></li>
+              <!--
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dropdown</a>
+                                    <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                                        <a class="dropdown-item" href="#!">Action</a>
+                                        <a class="dropdown-item" href="#!">Another action</a>
+                                        <div class="dropdown-divider"></div>
+                                        <a class="dropdown-item" href="#!">Something else here</a>
+                                    </div>
+                                </li>
+                                -->
+            </ul>
           </div>
-          
-          <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
-              
-            <h3>الطلبات<img class="" src="Images/شعار مار المتميزه للمقاولات.png" id="dashboard_logo"></h3>
+        </div>
+      </nav>
+      <!-- Page content-->
+      <div class="container-fluid">
+        <div class="col py-3">
+          <main role="main" class="col-md-12 ml-sm-auto col-lg-10 px-4">
+
+            <h3>الطلبات</h3>
             <hr>
-            <div class="table-responsive table-wrapper-scroll-y my-custom-scrollbar" id="scroll_table" style="height: 300px;  overflow: scroll;">
-              <table class="table table-bordered mb-0" id="content_table">
+            <div class="table-responsive table-wrapper-scroll-y my-custom-scrollbar" id="scroll_table" style="height: 300px;  overflow: scroll; background-color: #162334; color: white;">
+              <?php
+              $result = mysqli_query($connection, $sql);
+
+              ?>
+              <table class="table table-bordered mb-0" id="content_table" style="color: white; text-align: center; ">
                 <thead class="table_head">
+
                   <tr>
                     <th scope="col">#</th>
                     <th scope="col">الاسم الأول</th>
                     <th scope="col">الاسم الأخير</th>
-                    <th scope="col">البريد الالكتروني</th>
+                    <th scope="col"> اسم المشروع </th>
                     <th>العمليات</th>
-                    
+
                   </tr>
-                  
                 </thead>
                 <tbody>
-                  <tr>
-                    <th scope="row">1</th>
-                    <td>Mark</td>
-                    <td>Otto</td>
-                    <td>Project Manager</td>
-                    <td><button type="button" class="btn btn-success" style="font-size: 12px;">عرض الطلب</button>&nbsp;&nbsp;&nbsp;&nbsp;<button type="button" class="btn btn-light" style="font-size: 12px;">حالة الطلب</button>&nbsp;&nbsp;&nbsp;&nbsp;</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">2</th>
-                    <td>Jacob</td>
-                    <td>Thornton</td>
-                    <td>JS developer</td>
-                    <td><button type="button" class="btn btn-success" style="font-size: 12px;">عرض الطلب</button>&nbsp;&nbsp;&nbsp;&nbsp;<button type="button" class="btn btn-light" style="font-size: 12px;">حالة الطلب</button>&nbsp;&nbsp;&nbsp;&nbsp;</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">3</th>
-                    <td>Larry</td>
-                    <td>Bird</td>
-                    <td>Back-end developer</td>
-                    <td><button type="button" class="btn btn-success" style="font-size: 12px;">عرض الطلب</button>&nbsp;&nbsp;&nbsp;&nbsp;<button type="button" class="btn btn-light" style="font-size: 12px;">حالة الطلب</button>&nbsp;&nbsp;&nbsp;&nbsp;</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">4</th>
-                    <td>Martin</td>
-                    <td>Smith</td>
-                    <td>Back-end developer</td>
-                    <td><button type="button" class="btn btn-success" style="font-size: 12px;">عرض الطلب</button>&nbsp;&nbsp;&nbsp;&nbsp;<button type="button" class="btn btn-light" style="font-size: 12px;">حالة الطلب</button>&nbsp;&nbsp;&nbsp;&nbsp;</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">5</th>
-                    <td>Kate</td>
-                    <td>Mayers</td>
-                    <td>Scrum master</td>
-                    <td><button type="button" class="btn btn-success" style="font-size: 12px;">عرض الطلب</button>&nbsp;&nbsp;&nbsp;&nbsp;<button type="button" class="btn btn-light" style="font-size: 12px;">حالة الطلب</button>&nbsp;&nbsp;&nbsp;&nbsp;</td>
-                  </tr>
-                 
-                  <tr>
-                    <th scope="row">6</th>
-                    <td>Larry</td>
-                    <td>Bird</td>
-                    <td>Back-end developer</td>
-                    <td><button type="button" class="btn btn-success" style="font-size: 12px;">عرض الطلب</button>&nbsp;&nbsp;&nbsp;&nbsp;<button type="button" class="btn btn-light" style="font-size: 12px;">حالة الطلب</button>&nbsp;&nbsp;&nbsp;&nbsp;</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">7</th>
-                    <td>Larry</td>
-                    <td>Bird</td>
-                    <td>Back-end developer</td>
-                    <td><button type="button" class="btn btn-success" style="font-size: 12px;">عرض الطلب</button>&nbsp;&nbsp;&nbsp;&nbsp;<button type="button" class="btn btn-light" style="font-size: 12px;">حالة الطلب</button>&nbsp;&nbsp;&nbsp;&nbsp;</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">8</th>
-                    <td>Larry</td>
-                    <td>Bird</td>
-                    <td>Back-end developer</td>
-                    <td><button type="button" class="btn btn-success" style="font-size: 12px;">عرض الطلب</button>&nbsp;&nbsp;&nbsp;&nbsp;<button type="button" class="btn btn-light" style="font-size: 12px;">حالة الطلب</button>&nbsp;&nbsp;&nbsp;&nbsp;</td>
-                  </tr>
-                </tbody>
-              </table>
+
+                  <?php
+                  if ($result->num_rows > 0) {
+                    $count = 1;
+                    while ($row = $result->fetch_assoc()) {
+                      $row_json = json_encode($row);
+                  ?>
+
+                      <tr>
+                        <th scope="row"><?php echo $count; ?></th>
+                        <td><?php echo $row["Email"]; ?></td>
+                        <td>Otto</td>
+                        <td><?php echo $row["ProjectName"]; ?></td>
+                        <td>
+                          <button type="button" onclick="openPopup('<?php echo htmlspecialchars($row_json, ENT_QUOTES, 'UTF-8'); ?>')" class="btn btn-outline-light" style="font-size: 12px;">
+                            <span class="glyphicon glyphicon-list-alt"></span>عرض الطلب
+                          </button>
+                          &nbsp;&nbsp;&nbsp;&nbsp;
+
+                          &nbsp;&nbsp;&nbsp;&nbsp;
+                          <button type="button" onclick="downloadfile('<?php echo htmlspecialchars($row_json, ENT_QUOTES, 'UTF-8'); ?>')" class="btn btn-success" style="font-size: 12px;">
+                            <span class="glyphicon glyphicon-arrow-down"></span>تحميل الطلب
+                          </button>
+                          <div id="progress-bar"></div>
+                          &nbsp;&nbsp;&nbsp;&nbsp;
+                       
+                          
+                        </td>
+                      </tr>
+
             </div>
-            <br>
-            <h3>العمليات</h3>
-            <hr>
-            <div class="row">
-                <div class="col-sm-6">
-                  <div class="card">
-                    <div class="card-body">
-                      <h5 class="card-title">إنشاء طلب</h5>
-                      <p class="card-text" style="font-size: 12px;">قم بإنشاء طلب صيانة جديد لعقارك</p>
-                      <a href="maintenanceRequest_maraqar.html" class="btn btn-primary" style="font-size: 12px; background-color: #162334;">إنشاء طلب</a>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-sm-6">
-                  <div class="card">
-                    <div class="card-body">
-                      <h5 class="card-title">عرض الطلبات</h5>
-                      <p class="card-text" style="font-size: 12px;">قم بعرض جميع طلبات الصيانة التي قمت بإنشائها و إرسالها لنا</p>
-                      <a href="user_dashboard.html" class="btn btn-primary" style="font-size: 12px; background-color: #162334;">عرض الطلبات</a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              
-              <div class="row">
-                <div class="col-sm-6">
-                  <div class="card">
-                    <div class="card-body">
-                      <h5 class="card-title">تقييم الخدمة</h5>
-                      <p class="card-text" style="font-size: 12px;">قم بتقييم الخدمات التي نقدمها لحضرتك عن طريق الإجابة عن بعض الأسئلة لتحسين خدماتنا و الوصول للأفضل لإرضائكم</p>
-                      <a href="#" class="btn btn-primary" style="font-size: 12px; background-color: #162334;">تقييم الخدمة</a>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-sm-6">
-                  <div class="card">
-                    <div class="card-body">
-                      <h5 class="card-title">تسجيل الخروج</h5>
-                      <p class="card-text" style="font-size: 12px;">قم بتسجيل الخروج من حسابك</p>
-                      <br>
-                      <a href="login_maraqar.html" class="btn btn-primary" style="font-size: 12px; background-color: #162334;">تسجيل الخروج</a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-                              
-          </main>
+        <?php
+                      $count++;
+                    }
+                  }
+        ?>
+        </tbody>
+        </table>
+
+
+
+
+
+
+
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="popup" class="popup">
+    <div class="popup-content">
+      <span class="close" onclick="closePopup()">&times;</span>
+
+      <div id="tid12" class="header">
+        <h2>عرض البيانات</h2>
+      </div>
+      <div class="content">
+        <div class="project">
+          <h3>معلومات المشروع</h3>
+          <p>اسم المشروع: <span id="par1"> </span> </p>
+          <p>اسم الحي: <span id="par2"></span> </p>
+          <p>رقم القطعة:<span id="par3"></span> </p>
+          <p>رقم الوحدة: <span id="par4"></span> </p>
+          <p>رقم الطابق: <span id="par5"></span> </p>
+          <p>تاريخ العقد: <span id="par6"></span> </p>
+        </div>
+        <div class="request">
+          <h3>معلومات الطلب</h3>
+          <p>نوع الطلب: <span id="par7"> </span> </p>
+          <p>وصف الطلب: <span id="par8"> </span> </p>
+          <p>حالة الطلب:<span id="par9"> </span> </p>
+          <p>تاريخ الطلب:<span id="par10"></span></p>
+          <p>عدد الزيارات:<span id="par16"></span></p>
+        </div>
+
+        <div class="user">
+          <h3>معلومات المستخدم</h3>
+          <p>الاسم: <span id="par11"> </span>  </p>
+          <p>الرقم الوطني:<span id="par12"> </span>  </p>
+          <p>رقم الهاتف: <span id="par13"> </span> </p>
+          <p>البريد الإلكتروني: <span id="par14"> </span> </p>
         </div>
         
+
+        <div id="img12" class="images">
+
+
+        </div>
       </div>
-      
+    </div>
+
+
+
+
+
+    <!-- Bootstrap core JS-->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Core theme JS-->
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <!-- <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script> -->
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-  </body>
+
+    <script src="js/javascriptfileUser.js"></script>
+</body>
+
 </html>
