@@ -1,10 +1,28 @@
 <?php
 session_start();
 
-if(isset($_SESSION['email']) && !empty($_SESSION['email']) && isset($_SESSION['password']) && !empty($_SESSION['password']) ){
-    header("Location:user_dashboard.php" );
+// if(isset($_SESSION['email']) && !empty($_SESSION['email']) && isset($_SESSION['password']) && !empty($_SESSION['password']) ){
+//     header("Location:user_dashboard.php" );
 
-}
+// }
+if(isset ($_COOKIE['typeUsers']) && !empty($_COOKIE['typeUsers']) && $_COOKIE['typeUsers'] == 'mainte' ){
+    header("Location:../admins/dashboardMainte.php");
+  
+  }elseif( isset ($_COOKIE['typeUsers']) && !empty($_COOKIE['typeUsers']) && $_COOKIE['typeUsers'] == 'admin' ){
+    header("Location:../admins/dashboard_admin.php");
+  }
+
+if (isset($_COOKIE['email']) && isset($_COOKIE['password']) && !empty($_COOKIE['password']) && !empty($_COOKIE['email']) && isset($_COOKIE['userId']) && !empty($_COOKIE['userId'])) {
+
+
+    // استرجاع البيانات من الكوكيز
+    // تعيين بيانات المستخدم في الجلسة
+    // var_dump($_COOKIE);
+    $_SESSION['email'] = $_COOKIE['email'];
+    $_SESSION['password'] = $_COOKIE['password'];
+    header("Location:user_dashboard.php" );
+   
+} 
 
 ?>
 <!DOCTYPE html>

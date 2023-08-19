@@ -1,7 +1,32 @@
 <?php
-// include "./processMainte.php";
+include "../db/dbConn.php";
 session_start();
-var_dump($_SESSION);
+if(isset ($_COOKIE['typeUsers']) && !empty($_COOKIE['typeUsers']) && $_COOKIE['typeUsers'] == 'mainte' ){
+  header("Location:../admins/dashboardMainte.php");
+
+}elseif(isset ($_COOKIE['typeUsers']) && !empty($_COOKIE['typeUsers']) && $_COOKIE['typeUsers'] == 'admin' ){
+  header("Location:../admins/dashboard_admin.php");
+}
+
+if (isset($_COOKIE['email']) && isset($_COOKIE['password']) && !empty($_COOKIE['password']) && !empty($_COOKIE['email'])) {
+  var_dump($_COOKIE);
+
+    // استرجاع البيانات من الكوكيز
+    // تعيين بيانات المستخدم في الجلسة
+    // var_dump($_COOKIE);
+    $_SESSION['email'] = $_COOKIE['email'];
+    $_SESSION['password'] = $_COOKIE['password'];
+  
+  }else{
+    header("Location:login_maraqar.php");
+  }
+$sql = "SELECT mainte.*, users.*
+        FROM mainte
+        JOIN users ON mainte.UserIDF = users.UserID  WHERE mainte.Status IN ('تم الاستلام', 'تم الارسال') AND users.Email = '$_SESSION[email]' ;
+       
+";
+$result = mysqli_query($connection, $sql);
+
 ?>
 
 <!DOCTYPE html>
@@ -35,8 +60,12 @@ var_dump($_SESSION);
               <div class="row justify-content-center">
                 <div class="col-md-10 col-lg-6 col-xl-5 order-2 order-lg-1">
 
-                  <p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4" style="color: #162334;">إنشاء طلب صيانة</p>
+                
+<?php 
+    if ($result->num_rows == 0):
 
+?>
+  <p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4" style="color: #162334;">إنشاء طلب صيانة</p>
                   <form class="mx-1 mx-md-4" id='mainteform' method="POST" enctype="multipart/form-data">
 
                     <div class="d-flex flex-row align-items-center mb-4">
@@ -138,11 +167,25 @@ var_dump($_SESSION);
                     </div>
 
                     <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4" id="regbtn">
-                      <button id="register" type="submit" class="btn btn-lg btn-block fa-lg gradient-custom-2 mb-3" style=" background-color:#162334; color: white; font-size: 16px;"> إرسال الطلب</button>
+                      <button id="register" type="submit" class="btn btn-lg btn-block fa-lg gradient-custom-2 mb-3" style=" background-color:#162334; color: white; font-size: 16px;" > إرسال الطلب</button>
                     </div>
 
                   </form>
 
+                  <?php 
+                    else:
+                  ?>
+                <div class="d-flex justify-content-center align-items-center h-50">
+  <p class="text-center h3 fw-bold mb-5 mx-1 mx-md-4 mt-4" style="color: #162334;">
+    لديك طلب صيانة قيد المعالجة<br>
+    يرجى الانتظار حتى الانتهاء من اعمال الصيانة في  الطلب السابق
+  </p>
+  <br>
+   <button type="button" class="btn btn-outline-light" style="font-size: 12px;" >
+      <a class="list-group-item list-group-item-action list-group-item-light p-3 sidebar_item" href="user_dashboard.php" style="background-color: #162334; color: white;"><i class="bi bi-list-ul" style="color: white; font-size: 18px;">&nbsp;العودة الى لوحة التجكم</i></a>                      
+    </button>
+</div>
+<?php endif; ?>
                 </div>
 
 
@@ -177,14 +220,90 @@ var_dump($_SESSION);
             $('#mainteform').find('button#register').text('جاري الإرسال...');
           },
           success: function(data) {
-            $('form#mainteform')[0].reset();
-            $('#mainteform').find('button#register').text('ارسال الطلب');
-            alert(data);
+              $('form#mainteform')[0].reset();
+              $('#mainteform').find('button#register').text('ارسال الطلب');
+              alert(data);
+              window.location.href='user_dashboard.php';
+
           }
         });
       });
     });
+
+    // $(function() {
+    //   $('form#mainteform').on('submit', function(event) {
+    //     event.preventDefault();
+
+    //     var formData = new FormData($('form#mainteform')[0]);
+
+    //     $.ajax({
+    //       type: 'post',
+    //       url: 'processMainte.php',
+    //       data: formData,
+    //       processData: false,
+    //       contentType: false,
+    //       beforeSend: function() {
+    //         $('#mainteform').find('button#register').text('جاري الإرسال...');
+    //       },
+    //       success: function(data) {
+    //         $('form#mainteform')[0].reset();
+    //         $('#mainteform').find('button#register').text('ارسال الطلب');
+    //         alert(data);
+    //       }
+    //     });
+    //   });
+    // });
+
+// function handlingMaintenance(datafile){
+//   // console.log(datafile)
+//   // var rowObj = JSON.parse(datafile);
+//   // console.log(rowObj)
+//   // var jsonData = JSON.stringify(rowObj);
+//   // console.log(jsonData)
+
+//   $.ajax({
+//   type: 'POST',
+//   url: 'processMainte.php',
+//   data: {json: datafile},
+  
+//   success: function(data) {
+    
+//             //  $('form#mainteform')[0].reset();
+//             // $('#mainteform').find('button#register').text('ارسال الطلب');
+//             alert(data);
+//             // window.location.href='user_dashboard.php';
+
+//   }
+// });
+// }
+
+/*
+function handlingMaintenance(event,datafile){
+  $('form#mainteform').click(function(event) {
+    event.preventDefault(); // منع السلوك الافتراضي للنقر
+    // القيام بأي شيء آخر تحتاج إلى القيام به هنا
+  var rowObj = JSON.parse(datafile);
+  var jsonData = JSON.stringify(rowObj);
+  console.log(jsonData)
+  console.log( typeof(jsonData))
+  console.log( typeof(rowObj))
+  console.log( rowObj)
+$.ajax({
+  type: 'POST',
+  url: 'processMainte.php',
+  data: {json: jsonData},
+  success: function(data) {
+    alert(data);
+    // window.location.href = 'dashboard_admin.php';
+  },
+});
+
+});
+
+}
+*/
   </script>
+  <!-- <script src="./js/fileJsUser.js"></script> -->
 </body>
 
 </html>

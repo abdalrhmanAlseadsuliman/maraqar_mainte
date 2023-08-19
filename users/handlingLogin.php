@@ -6,7 +6,12 @@ session_start();
 // var_dump($_SESSION);
 // تحقق من إرسال نموذج تسجيل الدخول
 
-
+if(isset ($_COOKIE['typeUsers']) && !empty($_COOKIE['typeUsers']) && $_COOKIE['typeUsers'] == 'mainte' ){
+    header("Location:../admins/dashboardMainte.php");
+  
+  }elseif(isset ($_COOKIE['typeUsers']) && !empty($_COOKIE['typeUsers']) && $_COOKIE['typeUsers'] == 'admin' ){
+    header("Location:../admins/dashboard_admin.php");
+  }
 if (isset($_POST['email']) && isset($_POST['password']) && !empty($_POST['password']) && !empty($_POST['email'])) {
 
     $email = $_POST['email'];
@@ -31,6 +36,7 @@ if (isset($_POST['email']) && isset($_POST['password']) && !empty($_POST['passwo
             
                 setcookie('email', $email, time() + (86400 * 30), '/');
                 setcookie('password', $password, time() + (86400 * 30), '/');
+                setcookie('userId', $user['UserID'], time() + (86400 * 30), '/');
                 $_SESSION['email'] = $email;
                 $_SESSION['password'] = $password;
                 $_SESSION['userId'] = $user['UserID'];
@@ -46,35 +52,5 @@ if (isset($_POST['email']) && isset($_POST['password']) && !empty($_POST['passwo
 }
 
 
-// if(true) {
-//     // $NationalNumber = $_POST['NationalNumber'];
-//     $email = $_POST['email'];
-//     $password = $_POST['password'];
-    
-//     // استعلام لجلب المستخدم المطابق للرقم الوطني
-//     $sql = "SELECT * FROM users WHERE Email =  '$email' ";
-//     $result = mysqli_query($connection, $sql);
-    
-//     // تحقق من وجود المستخدم
-//     if(mysqli_num_rows($result) == 1) {
-//         $user = mysqli_fetch_assoc($result);
-//         // var_dump($user);
-//         // تحقق من صحة كلمة المرور
-//         if($password == $user['Password']) {
-//             $_SESSION['password'] =$password;
-//             $_SESSION['email'] = $email; 
-//             $_SESSION['userId'] = $user['UserID'];
-            
-
-//             // header("Location: ./user_dashboard.php");
-//             // exit;
-//             echo "تم تسجيل الدخول بنجاح";
-//         } else {
-//             echo "كلمة المرور غير صحيحة";
-//         }
-//     } else {
-//         echo "الرقم الوطني غير موجود";
-//     }
-// }
 
 ?>

@@ -1,5 +1,5 @@
 
-.popup {
+.popup , .popupRatingShow {
     display: none;
     position: fixed;
     z-index: 100;
@@ -38,4 +38,80 @@
     text-decoration: none;
     cursor: pointer;
     
+}
+
+#popup1 {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    z-index: 9999;
+    overflow: auto;
+    text-align: center;
+  }
+
+#popupImage {
+    
+    max-width: 70%;
+    max-height: 70%;
+    margin: auto;
+    transform: scale(1);
+    transition: transform 0.3s ease-out;
+  }
+  #closeBtn {
+    color: #fff;
+    font-size: 30px;
+    font-weight: bold;
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    cursor: pointer;
+  }
+  
+  #closeBtn:hover {
+    color: #ccc;
+  }
+
+
+.images .imgMainte {
+    width: 300px;
+    margin-right: 10px; /* تعيين المسافة بين الصورة والصورة التالية */
+    margin-bottom: 10px; /* تعيين المسافة بين الصورة والصورة التالية */
+}
+@media (max-width: 450px) {
+  .images .imgMainte{
+    width: 200px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+  }
+}
+.img-fluid{
+  width: 200px;
+    margin: 0 auto;
+}
+.container h2{
+  font-size: 16px !important;
+  display: block !important;
+  margin-top: 20px !important;
+  text-align: center !important;
+}
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #1e355b; /* لون شريط السكرول */
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background-color: #f1f1f1; /* لون خلفية شريط السكرول */
+}
+.sidebar1{
+  border-radius:0px 5px 15px 0px;
+  overflow: hidden; /* كسر الحواف */
+  box-shadow: 2px 2px 2px 3px rgba(124, 123, 129, 0.466) /* ظل من الأعلى اليمين والأسفل اليمين */
 }

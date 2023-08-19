@@ -1,3 +1,11 @@
+<?php
+if(isset ($_COOKIE['typeUsers']) && !empty($_COOKIE['typeUsers']) && $_COOKIE['typeUsers'] == 'mainte' ){
+  header("Location:../admins/dashboardMainte.php");
+
+}elseif(isset ($_COOKIE['typeUsers']) && !empty($_COOKIE['typeUsers']) && $_COOKIE['typeUsers'] == 'admin' ){
+  header("Location:../admins/dashboard_admin.php");
+}
+?>
 <!DOCTYPE html>
 <html dir="rtl" lang="ar">
 

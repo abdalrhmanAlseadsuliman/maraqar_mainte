@@ -1,4 +1,4 @@
-<?php 
+<?php
 include "../db/dbConn.php";
 include "../mailFunction.php";
 session_start();
@@ -43,8 +43,8 @@ session_start();
                     <br>
                     <br>
                     <?php
-                    if(!isset($_GET['v_cod'])){
-                        echo '<form method="POST" >
+                    if (!isset($_GET['v_cod'])) {
+                      echo '<form method="POST" >
                         <div class="form-outline mb-4">
                         <div class="mb-3">
                           <input type="email" name="email" id="email" class="form-control" placeholder=" ادخل بريدك الالكتروني" style="font-size: 12px; text-align: center;" required />
@@ -59,16 +59,13 @@ session_start();
                       
                      
                         </form > ';
-                        }
-                        elseif(isset($_GET['v_cod']) && isset($_GET['email']) ){
+                    } elseif (isset($_GET['v_cod']) && isset($_GET['email'])) {
                       $checkEmail = "SELECT Email, verification_id FROM users WHERE Email = '$_GET[email]' AND verification_id = '$_GET[v_cod]' ";
                       $result = mysqli_query($connection, $checkEmail);
-    
-                       if( mysqli_num_rows($result) > 0)
 
-   { 
-                     
-                      echo '
+                      if (mysqli_num_rows($result) > 0) {
+
+                        echo '
                       
 
                     <form method = "post">
@@ -98,39 +95,39 @@ session_start();
 
                     </form>
                     ';
+                      } else {
+                        echo "انتهت صلاحيت الرابط";
+                      }
                     }
-                  else{
-                    echo "انتهت صلاحيت الرابط";
-                }
-              }  
-                    if(isset($_POST['newPassword'])){
-                        $newpassword = $_POST['password'];
-                        $newv_cod=bin2hex(random_bytes(16));
-                        
-                        $sql = "UPDATE users SET Password = '$newpassword', verification_id = '$newv_cod' WHERE Email = '$_GET[email]' AND verification_id = '$_GET[v_cod]'";
-                        if(mysqli_query($connection, $sql)){
-                            $sql = "SELECT * FROM users WHERE Password = '$newpassword' AND Email = '$_GET[email]' ";
-                            $result = mysqli_query($connection, $sql);
-                            
-                
-                            if(mysqli_num_rows($result) == 1) {
-                                $user = mysqli_fetch_assoc($result);
-                                // var_dump($user);
-                                // تحقق من صحة كلمة المرور
-                               
-                                    $_SESSION['NationalNumber'] = $user['NationalNumber'];
-                                    $_SESSION['password'] = $user['Password'];
-                                    $_SESSION['userId'] = $user['UserID'];
-                                    // echo "<br>";
-                                    // var_dump($_SESSION);
-                        
-                                    header("Location: user_dashboard.php");
-                                    exit;
-                        
-                    }}}
-                
-                  ?>
-                    </div>
+                    if (isset($_POST['newPassword'])) {
+                      $newpassword = $_POST['password'];
+                      $newv_cod = bin2hex(random_bytes(16));
+
+                      $sql = "UPDATE users SET Password = '$newpassword', verification_id = '$newv_cod' WHERE Email = '$_GET[email]' AND verification_id = '$_GET[v_cod]'";
+                      if (mysqli_query($connection, $sql)) {
+                        $sql = "SELECT * FROM users WHERE Password = '$newpassword' AND Email = '$_GET[email]' ";
+                        $result = mysqli_query($connection, $sql);
+
+
+                        if (mysqli_num_rows($result) == 1) {
+                          $user = mysqli_fetch_assoc($result);
+                          // var_dump($user);
+                          // تحقق من صحة كلمة المرور
+
+                          $_SESSION['NationalNumber'] = $user['NationalNumber'];
+                          $_SESSION['password'] = $user['Password'];
+                          $_SESSION['userId'] = $user['UserID'];
+                          // echo "<br>";
+                          // var_dump($_SESSION);
+
+                          header("Location: user_dashboard.php");
+                          exit;
+                        }
+                      }
+                    }
+
+                    ?>
+                  </div>
                 </div>
                 <div class="col-lg-6 d-flex align-items-center gradient-custom-2">
                   <div class="text-center">
@@ -147,6 +144,41 @@ session_start();
     </div>
     </form>
   </section>
+
+
+  <?php
+
+  if (isset($_POST['resetPassword'])) :
+    $email = $_POST['email'];
+    $checkEmail = "SELECT Email, verification_id FROM users WHERE Email = '$email' ";
+    $result = mysqli_query($connection, $checkEmail);
+
+
+    if (mysqli_num_rows($result) > 0) :
+      $user = mysqli_fetch_assoc($result);
+      $v_cod = $user['verification_id'];
+      $subject =  'إعادة تعين كلمة المرور';
+      $message = "
+      <a href='http://maraqar.com/maintenance/users/forgot_password_maraqar.php?email=$email&v_cod=$v_cod'>reset password</a>
+      ";
+      // <a href='http://localhost/php/newMaint/users/forgot_password_maraqar.php?email=$email&v_cod=$v_cod'>reset password</a>
+      sendmail($email, $subject, $message);
+  ?>
+      <script>
+        alert("راجع بريدك الالكتروني ")
+        window.location.href = "login_maraqar.php"
+      </script>
+
+    <?php else : ?>
+
+      <script>
+        alert("الايميل غير موجود لدينا")
+      </script>
+
+    <?php endif; ?>
+  <?php endif; ?>
+
+
   <script>
     function checkPasswordMatch() {
       var password = document.getElementById("forgot_password");
@@ -164,38 +196,3 @@ session_start();
 </body>
 
 </html>
-
-<?php
-
-  if(isset($_POST['resetPassword']) ){
-    $email = $_POST['email'];
-    $checkEmail = "SELECT Email, verification_id FROM users WHERE Email = '$email' ";
-    $result = mysqli_query($connection, $checkEmail);
-    
-
-    if( mysqli_num_rows($result) > 0){
-        $user = mysqli_fetch_assoc($result);
-        $v_cod = $user['verification_id'];
-        $subject =  'إعادة تعين كلمة المرور';       
-        $message = "
-        <a href='http://localhost/php/newMaint/users/forgot_password_maraqar.php?email=$email&v_cod=$v_cod'>reset password</a>
-        ";
-        sendmail($email,$subject,$message );
-        echo '
-        <div class="alert alert-success mt-3"> 
-     تم ارسال رابط لإعادة تعيين كلمة مرور إلى حسابك
-     </div> 
-     ';
-    }else{
-        echo '
-        <div class="alert alert-warning mt-3">
-        هذا بريد الكتروني غير مسجل لدينا
-        </div> 
-        ';
-    }
-}
-        
-
-?> 
-
-

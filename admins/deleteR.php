@@ -6,7 +6,7 @@ $json = $_POST['json'];
 $data = json_decode($json, true);
 
 
-$sql = "DELETE FROM mainte WHERE ProjectName= '$data[ProjectName]' ";
+$sql = "DELETE FROM mainte WHERE ProjectId = '$data[ProjectId]' ";
 
 // $ress= mysqli_query($connection, $sql);
 // $row = $ress->fetch_assoc();

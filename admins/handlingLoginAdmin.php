@@ -3,7 +3,6 @@ include "../db/dbConn.php";
 // include "../mailFunction.php";
 
 session_start();
-// var_dump($_POST);
 function isPasswordStrong($password)
 {
     // يحتوي الرمز المرجعي على مجموعة من الأحرف الممكنة التي قد تستخدم في كلمة مرور قوية
@@ -54,10 +53,7 @@ function validate_email($email)
 {
     return filter_var($email, FILTER_VALIDATE_EMAIL) !== false;
 }
-
-// var_dump("debrtbrtn");
-// var_dump($_POST['submitType']);
-// var_dump($_POST['submitType']=="register");
+;
 
 $json = $_POST['json'];
 // $data = json_decode($json, true);
@@ -84,8 +80,9 @@ if($_POST['submitType']=="register"){
         if(mysqli_num_rows($result)==1){
             echo "الايميل موجود مسبقا";
         }elseif(isPasswordStrong($data['password']) && isPasswordMatch($data['password'],$data['confirmPassword']) ){
-            $sql = "INSERT INTO admins (UserName,Email,Password,TypeUsers) VALUES ('$data[userName]','$data[email]','$data[password]', '$data[confirmPassword]')";
+            $sql = "INSERT INTO admins (UserName,Email,Password,TypeUsers) VALUES ('$data[userName]','$data[email]','$data[password]', 'mainte')";
             if(mysqli_query($connection,$sql)){
+               
                 echo "تم إدخال الفني بنجاح";
             }else{
                 echo "هناك خطا حاول مرة اخرى";
@@ -118,9 +115,9 @@ if($_POST['submitType']=="register"){
         // var_dump($user);
 
 
-
+        $pass = trim( $user['Password']); 
         // var_dump($user);
-        if ($password == $user['Password']) {
+        if ($password == $pass) {
             if ($user['TypeUsers'] == 'admin') {
                 setcookie('email', $email, time() + (86400 * 30), '/');
                 setcookie('password', $password, time() + (86400 * 30), '/');

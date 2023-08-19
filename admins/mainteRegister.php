@@ -127,29 +127,7 @@ var_dump($_POST);
         </div>
     </section>
     <script>
-    // $(function() {
-    //   $('form#Myform').on('submit', function(event) {
-    //     event.preventDefault();
-
-    //     var formData = new FormData($('form#Myform')[0]);
-
-    //     $.ajax({
-    //       type: 'post',
-    //       url: 'handlingLoginAdmin.php',
-    //       data: formData,
-    //       processData: false,
-    //       contentType: false,
-    //       beforeSend: function() {
-    //         $('#Myform').find('button').text('جاري الإرسال...');
-    //       },
-    //       success: function(data) {
-    //         $('form#Myform')[0].reset();
-    //         $('#Myform').find('button').text('ارسال الطلب');
-    //         alert(data);
-    //       }
-    //     });
-    //   });
-    // });
+   
 
 function handlingRegister(datafile){
   $('#Myform').click(function(event) {
@@ -158,15 +136,6 @@ function handlingRegister(datafile){
 
     // القيام بأي شيء آخر تحتاج إلى القيام به هنا
 var rowObj = JSON.parse(datafile);
-// var jsonData = JSON.stringify(rowObj);
-// console.log( typeof(rowObj))
-// console.log( rowObj)
-
-// console.log(jsonData)
-// console.log( typeof(jsonData))
-
-// console.log( typeof(datafile))
-// console.log( datafile)
 
 $.ajax({
   type: 'POST',
@@ -174,8 +143,8 @@ $.ajax({
   data: {json: rowObj,
     submitType:"register"},
   success: function(data) {
-    // window.location.href = 'dashboard_admin.php';
-    alert(data);
+      alert(data);
+      window.location.href = 'dashboard_admin.php';
   },
 });
 

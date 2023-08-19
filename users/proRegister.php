@@ -4,25 +4,12 @@ include "../mailFunction.php";
 
 session_start();
 
-// if(isset($_SESSION['email']) && !empty($_SESSION['email']) && isset($_SESSION['password']) && !empty($_SESSION['password']) ){
-//     $email = $_SESSION['email'];
-//     $password = $_SESSION['password'];
-//     // $userId = $_SESSION['userId'];
-//     var_dump($_SESSION);
-//     // echo   $NationalNumber . "   " .$password  ;
-// }else{
-//     header('location: ./login_maraqar.php');
-// }
-
-    // $firstName = $_POST['FirstName'];
-    // $lastName = $_POST['LastName'];
-    // $nationalNumber = $_POST['NationalNumber'];
-    // $phoneNumber = $_POST['Phone'];
-    // $email = $_POST['Email'];
-    // $password = $_POST['password'];
-    // $confirmPassword = $_POST['confirmPassword'];
-    // $v_cod=bin2hex(random_bytes(16));
-
+if(isset ($_COOKIE['typeUsers']) && !empty($_COOKIE['typeUsers']) && $_COOKIE['typeUsers'] == 'mainte' ){
+    header("Location:../admins/dashboardMainte.php");
+  
+  }elseif(isset ($_COOKIE['typeUsers']) && !empty($_COOKIE['typeUsers']) && $_COOKIE['typeUsers'] == 'admin' ){
+    header("Location:../admins/dashboard_admin.php");
+  }
 
 function validate_required_fields($fields){
     foreach($fields as $field){
@@ -32,6 +19,42 @@ function validate_required_fields($fields){
     }
     return true;
 }
+
+function isPasswordStrong($password)
+{
+    // يحتوي الرمز المرجعي على مجموعة من الأحرف الممكنة التي قد تستخدم في كلمة مرور قوية
+    $referenceChars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+{}|:<>?,./';
+
+    // يتم تحديد الحد الأدنى لطول كلمة المرور وعدد الأحرف المختلفة المطلوبة من الرمز المرجعي
+    $minLength = 8;
+    $minDiffChars = 3;
+
+    // تحقق من أن كلمة المرور تلبي الحد الأدنى لطولها
+    if (strlen($password) < $minLength) {
+        echo " كلمة المرور قصيرة يجب ان تكون اكبر من ثمانية ارقام ";
+        return false;
+    }
+
+    $diffChars = 0;
+
+    // يتم التحقق من وجود الأحرف المختلفة في كلمة المرور وحساب الأحرف المختلفة
+    for ($i = 0; $i < strlen($referenceChars); $i++) {
+        if (strpos($password, $referenceChars[$i]) !== false) {
+            $diffChars++;
+        }
+    }
+
+    // يتم التحقق من أن كلمة المرور تحتوي على عدد كافٍ من الأحرف المختلفة
+    if ($diffChars < $minDiffChars) {
+        echo "كلمة المرور ضعيفة جدا حول استخدام احرف كبيرة وصغيرة وارقام ورموز";
+        return false;
+    }
+
+    // تمرير جميع المعايير ، وبالتالي فإن كلمة المرور قوية
+    return true;
+}
+
+
 
 function validate_password($password, $confirmPassword){
     return $password === $confirmPassword;
@@ -59,7 +82,7 @@ function send_verification_email($email, $subject, $message){
 }
 // var_dump($_SESSION);
 
-if(true){
+if(isset($_POST['FirstName']) && isset($_POST['LastName']) && isset($_POST['NationalNumber']) && isset($_POST['Phone']) && isset($_POST['password']) && isset($_POST['confirmPassword'])){
     $firstName = $_POST['FirstName'];
     $lastName = $_POST['LastName'];
     $nationalNumber = $_POST['NationalNumber'];
@@ -75,7 +98,9 @@ if(true){
 
     if(!validate_required_fields($required_fields)){
         echo "<p>الرجاء ملء جميع الحقول المطلوبة.</p>";
-    } else if(!validate_password($password, $confirmPassword)){
+    }else if(!isPasswordStrong($password)){
+       
+    }else if(!validate_password($password, $confirmPassword)){
         echo "<p>كلمة السر وتأكيدها غير متطابقين.</p>";
     } else if(!validate_email($email)){
         echo "<p>البريد الإلكتروني غير صحيح.</p>";
@@ -83,12 +108,11 @@ if(true){
         echo "<p>البيانات مسجلة بالفعل.</p>";
     } else {
         if(insert_user($connection, $firstName, $lastName, $nationalNumber, $phoneNumber, $email, $password, $v_cod) && send_verification_email($email, $subject, $message)){           
-              $_SESSION['email'] = $email;
-              $_SESSION['password'] = $password;
-            echo "<p> تم ارسال رسالة الى بريدك الالكتروني يرجى التحقق منها </p>";
+              
+            echo " تم ارسال رسالة الى بريدك الالكتروني يرجى التحقق منها ";
             
         } else {
-            echo "<p>حدث خطأ أثناء تسجيل الحساب.</p>";
+            echo "حدث خطأ أثناء تسجيل الحساب.";
         }
     }
 }
