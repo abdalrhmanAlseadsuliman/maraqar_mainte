@@ -50,24 +50,13 @@ function openPopup(text) {
     // document.getElementById("selectedOption").innerHTML = rowObj['Status'] // افتراضياً يجب تعيين ID العنصر الذي يحتوي على الصور إلى "images"
 
     document.getElementById("par10").innerHTML = rowObj['RequestDate'] // افتراضياً يجب تعيين ID العنصر الذي يحتوي على الصور إلى "images"
-    // document.getElementById("par11").innerHTML = rowObj['FirstName'] + " " + rowObj['LastName'] // افتراضياً يجب تعيين ID العنصر الذي يحتوي على الصور إلى "images"
-    // document.getElementById("par12").innerHTML = rowObj['NationalNumber'] // افتراضياً يجب تعيين ID العنصر الذي يحتوي على الصور إلى "images"
-    // document.getElementById("par13").innerHTML = rowObj['Phone'] // افتراضياً يجب تعيين ID العنصر الذي يحتوي على الصور إلى "images"
-    // document.getElementById("par14").innerHTML = rowObj['Email'] // افتراضياً يجب تعيين ID العنصر الذي يحتوي على الصور إلى "images"
+  
     document.getElementById("par16").innerHTML = rowObj['visit'] // افتراضياً يجب تعيين ID العنصر الذي يحتوي على الصور إلى "images"
     document.getElementById("par21").innerHTML = rowObj['codeRequest'] // افتراضياً يجب تعيين ID العنصر الذي يحتوي على الصور إلى "images"
     
     document.getElementById("par22").innerHTML = rowObj['messageReject'] // افتراضياً يجب تعيين ID العنصر الذي يحتوي على الصور إلى "images"
 
-    
-    // selectedOption
-    // document.getElementById("par15").onclick =  function() {
-    //   updateReq(text);
-    // };
-    
-    
-    // افتراضياً يجب تعيين ID العنصر الذي يحتوي على الصور إلى "images"
-    
+  
     var images = rowObj['Img'].split(",");
     var imagesDiv = document.getElementById("img12"); // افتراضياً يجب تعيين ID العنصر الذي يحتوي على الصور إلى "images"
     imagesDiv.innerHTML = "";
@@ -100,10 +89,13 @@ function closePopupRatingShow() {
 }
 
 
-function openPopupRating() {
+function openPopupRating(text) {
   
   document.getElementById("popupRating").style.display = "block";
-
+document.getElementById("btnRating").addEventListener("click", function(event) {
+  event.preventDefault();
+  handlingRating(text)
+});
 
 }
 
@@ -123,20 +115,20 @@ function openPopupRatingShow(dataRating) {
 }
 
 function showPopupimage(src) {
-  var popup = document.getElementById("popup1");
-  var popupImage = document.getElementById("popupImage");
-  var closeBtn = document.getElementById("closeBtn");
-  
-  popup.style.display = "block";
-  popupImage.src = src;
-  
-  // عمل تكبير على الصورة عند فتح ال popup
-  popupImage.style.transform = "scale(1.2)";
-  
-  // تحديد الدالة المنفذة عند النقر على أيقونة الإغلاق (X)
-  closeBtn.onclick = function() {
-    popup.style.display = "none";
-  }
+    var popup = document.getElementById("popup1");
+    var popupImage = document.getElementById("popupImage");
+    var closeBtn = document.getElementById("closeBtn");
+    
+    popup.style.display = "block";
+    popupImage.src = src;
+    
+    // عمل تكبير على الصورة عند فتح ال popup
+    popupImage.style.transform = "scale(1.2)";
+    
+    // تحديد الدالة المنفذة عند النقر على أيقونة الإغلاق (X)
+    closeBtn.onclick = function() {
+      popup.style.display = "none";
+    }
 }
 
 // إغلاق popup عند النقر على أي مكان خارج popup
@@ -162,25 +154,37 @@ document.getElementById("popup1").addEventListener("transitionend", function() {
 
 
 
-function handlingRating(dataMainte,dataRating){  
+function handlingRating(dataMinte){  
+var rowObjRating = JSON.parse(dataMinte);
   
-    // القيام بأي شيء آخر تحتاج إلى القيام به هنا
-  var rowRating = JSON.parse(dataRating);
-  var rowMainte = JSON.parse(dataMainte);
-  console.log(rowMainte['ProjectId'])
-  // var jsonData = JSON.stringify(rowObj);
-  // console.log(jsonData)
-  // console.log( typeof(jsonData))
-  // console.log( typeof(rowObj))
-  // console.log( rowO]bj)
+const formData = new FormData(document.getElementById("MyRating"));
+formData.append("ProjectIdMainte", rowObjRating["ProjectId"]);
+
+const data = {};
+
+formData.forEach((value, key) => {
+  data[key] = value;
+});
+ 
+var dataString = JSON.stringify(data);
+  // console.log(rowMainte['ProjectId'])
+  console.log(dataString)
+ 
 $.ajax({
   type: 'POST',
   url: 'handlingRating.php',
-  data: {jsonRating: rowRating,
-  ProjectIdMainte:rowMainte['ProjectId']},
+  data: {
+    jsonRating: dataString,
+  },
   success: function(data) {
-    // window.location.href = 'dashboard_admin.php';
-    alert(data);
+    if(data == "شكرا لقد تلقينا رسالتك")
+    {
+      alert(data);
+      window.location.href = 'user_dashboard.php';
+    }else{
+      alert(data);
+
+    }
   },
 });
 

@@ -1,9 +1,17 @@
 <?php
 if(isset ($_COOKIE['typeUsers']) && !empty($_COOKIE['typeUsers']) && $_COOKIE['typeUsers'] == 'mainte' ){
+  
   header("Location:../admins/dashboardMainte.php");
 
 }elseif(isset ($_COOKIE['typeUsers']) && !empty($_COOKIE['typeUsers']) && $_COOKIE['typeUsers'] == 'admin' ){
+ 
   header("Location:../admins/dashboard_admin.php");
+
+}
+elseif(isset ($_COOKIE['email']) && !empty($_COOKIE['email']) && isset ($_COOKIE['password']) && !empty($_COOKIE['password'])  ){
+  
+  header("Location:user_dashboard.php");
+
 }
 ?>
 <!DOCTYPE html>

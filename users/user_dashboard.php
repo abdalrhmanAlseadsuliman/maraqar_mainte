@@ -151,19 +151,19 @@ $result = mysqli_query($connection, $sql);
                                 $rowRating_json = json_encode($rowRating);
                               ?>
                                 <button type=" button" onclick="openPopupRatingShow('<?php echo htmlspecialchars($rowRating_json, ENT_QUOTES, 'UTF-8'); ?>')" class="btn btn-outline-primary btn-sm me-2 mb-3">
-                                <i class="bi bi-eye""></i> عرض التقيم
+                                  <i class="bi bi-eye""></i> عرض التقيم
                                 </button>
 
                               <?php else : ?>
-                                <button type=" button" onclick="openPopupRating()" class="btn btn-outline-primary btn-sm me-2 mb-3">
-                                  <i class="bi bi-star"></i> إضافة تقيم
-                            </button>
-                          <?php endif ?>
+                                <button type=" button" onclick="openPopupRating('<?php echo htmlspecialchars($row_json, ENT_QUOTES, 'UTF-8'); ?>')" class="btn btn-outline-primary btn-sm me-2 mb-3">
+                                    <i class="bi bi-star"></i> إضافة تقيم
+                                </button>
+                              <?php endif ?>
 
-                        <?php endif ?>
-                        <button type="button" onclick="downloadhtmlnew('<?php echo htmlspecialchars($row_json, ENT_QUOTES, 'UTF-8'); ?>')" class="btn btn-outline-success btn-sm me-2 mb-3">
-                          <i class="bi bi-download"></i>تحميل الطلب
-                        </button>
+                            <?php endif ?>
+                            <button type="button" onclick="downloadhtmlnew('<?php echo htmlspecialchars($row_json, ENT_QUOTES, 'UTF-8'); ?>')" class="btn btn-outline-success btn-sm me-2 mb-3">
+                              <i class="bi bi-download"></i>تحميل الطلب
+                            </button>
                           </div>
                           <!-- <div id="progress-bar"></div> -->
 
@@ -191,13 +191,16 @@ $result = mysqli_query($connection, $sql);
         <div class="row d-flex justify-content-center align-items-center ">
           <div class="col-lg-12 col-xl-11" style="min-width:100%;">
             <div class="card text-black p-3 " style="border-radius: 25px;">
-              <div class="container mt-5">
+              <div class="container mt-2">
                 <div class="row mb-12">
-                  <div class="col-md-12 centerImg">
+                  <div class="col-md-3 text-center">
                     <img src="./Images/logoM.jpg" class="rounded-circle" style="width: 100px; height: 100px;">
+                  </div>
+                  <div class="col-md-6 mt-2">
+
+                    <h2 style = "font-size: 22px !important" >معلومات طلب الصيانة</h4>
 
                   </div>
-                  <h2 style="text-align: left; margin-top: -50px;">معلومات طلب الصيانة</h4>
                 </div>
                 <br>
 
@@ -267,38 +270,38 @@ $result = mysqli_query($connection, $sql);
                   <!-- <input type="date" class="form-control" id="inputDate" aria-selected="true"> -->
                   <div id="par21" class="form-control fs-5 font-italic"> </div>
                 </div>
-                
+
                 <div class="col-md-6">
                   <label for="inputDate" class="form-label" style="font-size:16px ;"> رسالة الرفض في حال وجودها </label>
                   <!-- <input type="date" class="form-control" id="inputDate" aria-selected="true"> -->
                   <div id="par22" class="form-control fs-5 font-italic"> </div>
                 </div>
-
-              </div>
-            </div>
-            <div class="row mb-3">
-              <div class="col-md-12">
-                <label for="inputDescription" class="form-label" style="font-size:16px ;">الوصف</label>
-                <!-- <textarea class="form-control" id="inputDescription" rows="3"></textarea> -->
-                <div id="par8" class="form-control fs-5 font-italic"> </div>
-              </div>
-            </div>
-            <div class="row mb-3">
-              <div class="col-md-12">
-                <label for="inputImage" class="form-label" style="font-size:16px ;">صور مرفقة</label>
-                <!-- <input type="file" class="form-control" id="inputImage"> -->
-                <div class="">
-                  <div id="img12" class="images imgMainte"></div>
+                <div class="row mb-3">
+                  <div class="col-md-12">
+                    <label for="inputDescription" class="form-label" style="font-size:16px ;">الوصف</label>
+                    <!-- <textarea class="form-control" id="inputDescription" rows="3"></textarea> -->
+                    <div id="par8" class="form-control fs-5 font-italic"> </div>
+                  </div>
                 </div>
+                <div class="row mb-3">
+                  <div class="col-md-12">
+                    <label for="inputImage" class="form-label" style="font-size:16px ;">صور مرفقة</label>
+                    <!-- <input type="file" class="form-control" id="inputImage"> -->
+                    <div class="">
+                      <div id="img12" class="images imgMainte"></div>
+                    </div>
 
-                <div id="popup1">
-                  <!-- <span class="close" onclick="closePopup()">&times;</span> -->
-                  <span id="closeBtn">&times;</span>
-                  <img id="popupImage" src="">
+                    <div id="popup1">
+                      <!-- <span class="close" onclick="closePopup()">&times;</span> -->
+                      <span id="closeBtn">&times;</span>
+                      <img id="popupImage" src="">
+                    </div>
+                  </div>
                 </div>
               </div>
               <button type="button" onclick="closePopup()" class="btn btn-danger close" style="font-size:16px ;">إغلاق</button>
             </div>
+
           </div>
         </div>
       </div>
@@ -317,50 +320,54 @@ $result = mysqli_query($connection, $sql);
             <div class="card">
               <div class="card-body p-md-5">
                 <div class="text-right">
-                  <i class="far fa-file-alt fa-4x mb-3 text-primary"></i>
-                  <div class="col-sm-6">
-                    <img src="./Images/logoM.jpg" class="rounded-circle" style="width: 100px; height: 100px;">
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <img src="./Images/logoM.jpg" class="rounded-circle" style="width: 100px; height: 100px; float: right;">
+                    </div>
+                    <div class="col-sm-6">
+                      <p style="text-align: center;">
+                        <strong>رأيك يهمنا</strong>
+                      </p>
+                      <p style="text-align: center;">
+                        هل لديك أفكار أو آراء لتحسين الخدمة؟
+                        <strong>قم بتقييم خدمتنا</strong>
+                      </p>
+                    </div>
+
                   </div>
-                  <p style="text-align: center;">
-                    <strong>رأيك يهمنا</strong>
-                  </p>
-                  <p style="text-align: center;">
-                    هل لديك أفكار أو آراء لتحسين الخدمة؟
-                    <strong>قم بتقييم خدمتنا</strong>
-                  </p>
                 </div>
 
                 <hr />
 
-                <form class="px-4" id="MyRating" action="">
+                <form class="px-4" id="MyRating" >
                   <p class="text-center"><strong>سرعة الرد</strong></p>
 
                   <div class="form-check mb-2">
+                    <input class="" type="radio" name="response_speed" id="radio2Example1" value="ممتازة">
                     <label class="form-check-label" for="radio2Example1">
                       ممتازة
                     </label>
-                    <input class="form-check-input" type="radio" name="response_speed" id="radio2Example1" value="ممتازة">
                   </div>
                   <div class="form-check mb-2">
+                    <input class="" type="radio" name="response_speed" id="radio2Example2" value="جيدة" />
                     <label class="form-check-label" for="radio2Example2">
                       جيدة
                     </label>
-                    <input class="form-check-input" type="radio" name="response_speed" id="radio2Example2" value="جيدة" />
                   </div>
                   <div class="form-check mb-2">
+                    <input class="" type="radio" name="response_speed" id="radio2Example3" value="متوسطة" />
                     <label class="form-check-label" for="radio2Example3">
                       متوسطة
                     </label>
-                    <input class="form-check-input" type="radio" name="response_speed" id="radio2Example3" value="متوسطة" />
                   </div>
                   <div class="form-check mb-2">
-                    <input class="form-check-input" type="radio" name="response_speed" id="radio2Example4" value="سيئة" />
+                    <input class="" type="radio" name="response_speed" id="radio2Example4" value="سيئة" />
                     <label class="form-check-label" for="radio2Example4">
                       سيئة
                     </label>
                   </div>
                   <div class="form-check mb-2">
-                    <input class="form-check-input" type="radio" name="response_speed" id="radio2Example5" value="سيئة جداً" />
+                    <input class="" type="radio" name="response_speed" id="radio2Example5" value="سيئة جداً" />
                     <label class="form-check-label" for="radio2Example5">
                       سيئة جداً
                     </label>
@@ -369,31 +376,31 @@ $result = mysqli_query($connection, $sql);
                   <p class="text-center"><strong>تعامل فني الصيانة</strong></p>
 
                   <div class="form-check mb-2">
-                    <input class="form-check-input" type="radio" name="maitenance_behavior" id="radio2Example6" value="ممتاز">
+                    <input class="" type="radio" name="maitenance_behavior" id="radio2Example6" value="ممتاز">
                     <label class="form-check-label" for="radio2Example6">
                       ممتاز
                     </label>
                   </div>
                   <div class="form-check mb-2">
-                    <input class="form-check-input" type="radio" name="maitenance_behavior" id="radio2Example7" value="جيد" />
+                    <input class="" type="radio" name="maitenance_behavior" id="radio2Example7" value="جيد" />
                     <label class="form-check-label" for="radio2Example7">
                       جيد
                     </label>
                   </div>
                   <div class="form-check mb-2">
-                    <input class="form-check-input" type="radio" name="maitenance_behavior" id="radio2Example8" value="متوسط" />
+                    <input class="" type="radio" name="maitenance_behavior" id="radio2Example8" value="متوسط" />
                     <label class="form-check-label" for="radio2Example8">
                       متوسط
                     </label>
                   </div>
                   <div class="form-check mb-2">
-                    <input class="form-check-input" type="radio" name="maitenance_behavior" id="radio2Example9" value="سيء" />
+                    <input class="" type="radio" name="maitenance_behavior" id="radio2Example9" value="سيء" />
                     <label class="form-check-label" for="radio2Example9">
                       سيء
                     </label>
                   </div>
                   <div class="form-check mb-2">
-                    <input class="form-check-input" type="radio" name="maitenance_behavior" id="radio2Example10" value="سيء جداً" />
+                    <input class="" type="radio" name="maitenance_behavior" id="radio2Example10" value="سيء جداً" />
                     <label class="form-check-label" for="radio2Example10">
                       سيء جداً
                     </label>
@@ -402,31 +409,31 @@ $result = mysqli_query($connection, $sql);
                   <p class="text-center"><strong>جودة خدمة الصيانة</strong></p>
 
                   <div class="form-check mb-2">
-                    <input class="form-check-input" type="radio" name="maitenance_service_speed" id="radio2Example11" value="ممتازة">
+                    <input class="" type="radio" name="maitenance_service_speed" id="radio2Example11" value="ممتازة">
                     <label class="form-check-label" for="radio2Example11">
                       ممتازة
                     </label>
                   </div>
                   <div class="form-check mb-2">
-                    <input class="form-check-input" type="radio" name="maitenance_service_speed" id="radio2Example12" value="جيدة" />
+                    <input class="" type="radio" name="maitenance_service_speed" id="radio2Example12" value="جيدة" />
                     <label class="form-check-label" for="radio2Example12">
                       جيدة
                     </label>
                   </div>
                   <div class="form-check mb-2">
-                    <input class="form-check-input" type="radio" name="maitenance_service_speed" id="radio2Example13" value="متوسطة" />
+                    <input class="" type="radio" name="maitenance_service_speed" id="radio2Example13" value="متوسطة" />
                     <label class="form-check-label" for="radio2Example13">
                       متوسطة
                     </label>
                   </div>
                   <div class="form-check mb-2">
-                    <input class="form-check-input" type="radio" name="maitenance_service_speed" id="radio2Example14" value="سيئة" />
+                    <input class="" type="radio" name="maitenance_service_speed" id="radio2Example14" value="سيئة" />
                     <label class="form-check-label" for="radio2Example14">
                       سيئة
                     </label>
                   </div>
                   <div class="form-check mb-2">
-                    <input class="form-check-input" type="radio" name="maitenance_service_speed" id="radio2Example15" value="سيئة جداً" />
+                    <input class="" type="radio" name="maitenance_service_speed" id="radio2Example15" value="سيئة جداً" />
                     <label class="form-check-label" for="radio2Example15">
                       سيئة جداً
                     </label>
@@ -435,31 +442,31 @@ $result = mysqli_query($connection, $sql);
                   <p class="text-center"><strong>سرعة تنفيذ خدمة الصيانة</strong></p>
 
                   <div class="form-check mb-2">
-                    <input class="form-check-input" type="radio" name="maitenance_service_execution_speed" id="radio2Example16" value="ممتازة" />
+                    <input class="" type="radio" name="maitenance_service_execution_speed" id="radio2Example16" value="ممتازة" />
                     <label class="form-check-label" for="radio2Example16">
                       ممتازة
                     </label>
                   </div>
                   <div class="form-check mb-2">
-                    <input class="form-check-input" type="radio" name="maitenance_service_execution_speed" id="radio2Example17" value="جيدة" />
+                    <input class="" type="radio" name="maitenance_service_execution_speed" id="radio2Example17" value="جيدة" />
                     <label class="form-check-label" for="radio2Example17">
                       جيدة
                     </label>
                   </div>
                   <div class="form-check mb-2">
-                    <input class="form-check-input" type="radio" name="maitenance_service_execution_speed" id="radio2Example18" value="متوسطة" />
+                    <input class="" type="radio" name="maitenance_service_execution_speed" id="radio2Example18" value="متوسطة" />
                     <label class="form-check-label" for="radio2Example18">
                       متوسطة
                     </label>
                   </div>
                   <div class="form-check mb-2">
-                    <input class="form-check-input" type="radio" name="maitenance_service_execution_speed" id="radio2Example19" value="سيئة" />
+                    <input class="" type="radio" name="maitenance_service_execution_speed" id="radio2Example19" value="سيئة" />
                     <label class="form-check-label" for="radio2Example19">
                       سيئة
                     </label>
                   </div>
                   <div class="form-check mb-2">
-                    <input class="form-check-input" type="radio" name="maitenance_service_execution_speed" id="radio2Example20" value="سيئة جداً" />
+                    <input class="" type="radio" name="maitenance_service_execution_speed" id="radio2Example20" value="سيئة جداً" />
                     <label class="form-check-label" for="radio2Example20">
                       سيئة جداً
                     </label>
@@ -467,31 +474,31 @@ $result = mysqli_query($connection, $sql);
                   <hr />
                   <p class="text-center"><strong>توافق الخدمة مع الطلب</strong></p>
                   <div class="form-check mb-2">
-                    <input class="form-check-input" type="radio" name="service_and_request" id="radio2Example21" value="ممتازة" />
+                    <input class="" type="radio" name="service_and_request" id="radio2Example21" value="ممتازة" />
                     <label class="form-check-label" for="radio2Example21">
                       ممتازة
                     </label>
                   </div>
                   <div class="form-check mb-2">
-                    <input class="form-check-input" type="radio" name="service_and_request" id="radio2Example22" value="جيدة" />
+                    <input class="" type="radio" name="service_and_request" id="radio2Example22" value="جيدة" />
                     <label class="form-check-label" for="radio2Example22">
                       جيدة
                     </label>
                   </div>
                   <div class="form-check mb-2">
-                    <input class="form-check-input" type="radio" name="service_and_request" id="radio2Example23" value="متوسطة" />
+                    <input class="" type="radio" name="service_and_request" id="radio2Example23" value="متوسطة" />
                     <label class="form-check-label" for="radio2Example23">
                       متوسطة
                     </label>
                   </div>
                   <div class="form-check mb-2">
-                    <input class="form-check-input" type="radio" name="service_and_request" id="radio2Example24" value="سيئة" />
+                    <input class="" type="radio" name="service_and_request" id="radio2Example24" value="سيئة" />
                     <label class="form-check-label" for="radio2Example24">
                       سيئة
                     </label>
                   </div>
                   <div class="form-check mb-2">
-                    <input class="form-check-input" type="radio" name="service_and_request" id="radio2Example25" value="سيئة جداً" />
+                    <input class="" type="radio" name="service_and_request" id="radio2Example25" value="سيئة جداً" />
                     <label class="form-check-label" for="radio2Example25">
                       سيئة جداً
                     </label>
@@ -502,7 +509,7 @@ $result = mysqli_query($connection, $sql);
                   <textarea type="textarea" class="form-control" name="opinion_area" style="height: 100px;" id="opinion_area">
             </textarea>
                   <div class="card-footer text-end col-md-12"></div>
-                  <button type="button" id="btnRating" class="btn send_btn" style="width: 100%; background-color: #162334; color: #fff;">إرسال</button>
+                  <button type="submit" id="btnRating" class="btn send_btn" style="width: 100%; background-color: #162334; color: #fff;" >إرسال</button>
               </div>
             </div>
             </form>
